@@ -65,8 +65,11 @@ BstNode *Delete(BstNode *root, int data)
         // case 3: 2 children
         else
         {
+            //find minmum in right-subtree 
             BstNode *temp = FindMin(root->right);
+            //copy the value in targetted node
             root->data = temp->data;
+            //delete dublicate from right-subtree
             root->right = Delete(root->right, temp->data);
         }
     }

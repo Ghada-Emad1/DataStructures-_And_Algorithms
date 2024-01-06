@@ -1,23 +1,47 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-struct BstNode
+struct Node
 {
-    int data;
-    BstNode *left;
-    BstNode *right;
+	char data;
+	Node* left;
+	Node* right;
 };
-
-bool IsBsTree(BstNode *root, int MinValue, int MaxValue)
+Node* Insert(Node* root, char data)
 {
-    if (root == NULL)
-        return true;
-    if ((root->data > MinValue && root->data < MaxValue) && (IsBsTree(root->left, MinValue, root->data)) && IsBsTree(root->right, root->data, MaxValue)){
-        return true;
-    }
-    else return false;
+	if (root == NULL)
+	{
+		root = new Node();
+		root->data = data;
+		root->left = root->right = NULL;
+	}
+	else if (data <= root->data) { root->left = Insert(root->left, data); }
+	else { root->right = Insert(root->right, data); }
+	return root;
+}
+bool IsBstUtil(Node* root, int minvalue, int maxvalue)
+{
+	if (root == NULL)
+	{
+		return true;
+	}
+	if((root->data > minvalue && root->data < maxvalue) && IsBstUtil(root->left, minvalue, root->data)
+		&& IsBstUtil(root->right, root->data, maxvalue))
+		return true;
+	else
+		return false;
+}
+bool IsBinarySearchTree(Node* root)
+{
+	return IsBstUtil(root,INT_MIN,INT_MAX);
 }
 int main()
 {
-    
-    cout<<"Is Tree Is Binary Search Tree "<<IsBsTree(root,INT_MIN,INT_MAX);
+	Node* root = NULL;
+	root = Insert(root, 15);
+	root = Insert(root, 10);
+	root = Insert(root, 20);
+	root = Insert(root, 25);
+	root = Insert(root, 8);
+	root = Insert(root, 12);
+	cout << "is binary tree is bst Or not ? " << IsBinarySearchTree(root);
 }
